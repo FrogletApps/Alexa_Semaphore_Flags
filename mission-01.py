@@ -68,19 +68,37 @@ class MindstormsGadget(AlexaGadget):
                 if state.value == 'active':
                     print("Wake word active", file=sys.stderr)
                     self.sound.play_song((('A3', 'e'), ('C5', 'e')))
-                    for i in range(0, 4, 1):
-                        self.leds.set_color("LEFT", color_list[i], (i * 0.25))
-                        self.leds.set_color("RIGHT", color_list[i], (i * 0.25))
-                        time.sleep(0.25)
 
                 elif state.value == 'cleared':
                     print("Wake word cleared", file=sys.stderr)
                     self.sound.play_song((('C5', 'e'), ('A3', 'e')))
-                    for i in range(3, -1, -1):
-                        self.leds.set_color("LEFT", color_list[i], (i * 0.25))
-                        self.leds.set_color("RIGHT", color_list[i], (i * 0.25))
-                        time.sleep(0.25)
 
+            elif state.name == 'alarm':
+                if state.value == 'active':
+                    print("Alarm active", file=sys.stderr)
+                    self.sound.play_song((('A3', 'e'), ('C5', 'e')))
+
+                elif state.value == 'cleared':
+                    print("Alarm cleared", file=sys.stderr)
+                    self.sound.play_song((('C5', 'e'), ('A3', 'e')))
+            
+            elif state.name == 'timer':
+                if state.value == 'active':
+                    print("Wake word active", file=sys.stderr)
+                    self.sound.play_song((('A3', 'e'), ('C5', 'e')))
+
+                elif state.value == 'cleared':
+                    print("Wake word cleared", file=sys.stderr)
+                    self.sound.play_song((('C5', 'e'), ('A3', 'e')))
+
+            elif state.name == 'reminders':
+                if state.value == 'active':
+                    print("Wake word active", file=sys.stderr)
+                    self.sound.play_song((('A3', 'e'), ('C5', 'e')))
+
+                elif state.value == 'cleared':
+                    print("Wake word cleared", file=sys.stderr)
+                    self.sound.play_song((('C5', 'e'), ('A3', 'e')))
 
 if __name__ == '__main__':
 
