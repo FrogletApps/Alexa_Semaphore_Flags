@@ -39,6 +39,9 @@ class MindstormsGadget(AlexaGadget):
         self.leds = Leds()
         self.sound = Sound()
 
+        self.blueMotor = MediumMotor(OUTPUT_A)
+        self.redMotor = MediumMotor(OUTPUT_B)
+
     def on_connected(self, device_addr):
         """
         Gadget connected to the paired Echo device.
@@ -46,7 +49,7 @@ class MindstormsGadget(AlexaGadget):
         """
         self.leds.set_color("LEFT", "GREEN")
         self.leds.set_color("RIGHT", "GREEN")
-        logger.info("{} connected to Echo device".format(self.friendly_name))
+        logger.info("Connected to Alexa")
 
     def on_disconnected(self, device_addr):
         """
@@ -55,7 +58,7 @@ class MindstormsGadget(AlexaGadget):
         """
         self.leds.set_color("LEFT", "BLACK")
         self.leds.set_color("RIGHT", "BLACK")
-        logger.info("{} disconnected from Echo device".format(self.friendly_name))
+        logger.info("Disconnected from Alexa")
 
     def on_alexa_gadget_statelistener_stateupdate(self, directive):
         """
@@ -65,20 +68,25 @@ class MindstormsGadget(AlexaGadget):
         color_list = ['BLACK', 'AMBER', 'YELLOW', 'GREEN']
         for state in directive.payload.states:
             if state.name == 'wakeword':
-
                 if state.value == 'active':
                     print("Wake word active", file=sys.stderr)
                     self.sound.play_song((('A3', 'e'), ('C5', 'e')))
-
+                    self.redMotor.on_for_degrees(speed=50, degrees=90)
+                    self.blueMotor.on_for_degrees(speed=50, degrees=90)
+                    self.redMotor.off()
+                    self.blueMotor.off()
                 elif state.value == 'cleared':
                     print("Wake word cleared", file=sys.stderr)
                     self.sound.play_song((('C5', 'e'), ('A3', 'e')))
+                    self.redMotor.on_for_degrees(speed=50, degrees=270)
+                    self.blueMotor.on_for_degrees(speed=50, degrees=270)
+                    self.blueMotor.off()
+                    self.redMotor.off()
 
             elif state.name == 'alarms':
                 if state.value == 'active':
                     print("Alarm active", file=sys.stderr)
                     self.sound.play_song((('B3', 'e'), ('D5', 'e')))
-
                 elif state.value == 'cleared':
                     print("Alarm cleared", file=sys.stderr)
                     self.sound.play_song((('B5', 'e'), ('D3', 'e')))
@@ -87,7 +95,6 @@ class MindstormsGadget(AlexaGadget):
                 if state.value == 'active':
                     print("Timer active", file=sys.stderr)
                     self.sound.play_song((('C3', 'e'), ('E5', 'e')))
-
                 elif state.value == 'cleared':
                     print("Timer cleared", file=sys.stderr)
                     self.sound.play_song((('E5', 'e'), ('C3', 'e')))
@@ -96,7 +103,6 @@ class MindstormsGadget(AlexaGadget):
                 if state.value == 'active':
                     print("Reminder active", file=sys.stderr)
                     self.sound.play_song((('D3', 'e'), ('F5', 'e')))
-
                 elif state.value == 'cleared':
                     print("Reminder cleared", file=sys.stderr)
                     self.sound.play_song((('F5', 'e'), ('D3', 'e')))
