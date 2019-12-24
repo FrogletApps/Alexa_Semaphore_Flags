@@ -15,6 +15,7 @@ import logging
 
 from ev3dev2.sound import Sound
 from ev3dev2.led import Leds
+from ev3dev2.motor import OUTPUT_A, OUTPUT_B, MediumMotor
 
 from agt import AlexaGadget
 
@@ -58,7 +59,7 @@ class MindstormsGadget(AlexaGadget):
 
     def on_alexa_gadget_statelistener_stateupdate(self, directive):
         """
-        Listens for the wakeword state change and react by turning on the LED.
+        Listens for the state changes and reacts
         :param directive: contains a payload with the updated state information from Alexa
         """
         color_list = ['BLACK', 'AMBER', 'YELLOW', 'GREEN']
@@ -73,32 +74,36 @@ class MindstormsGadget(AlexaGadget):
                     print("Wake word cleared", file=sys.stderr)
                     self.sound.play_song((('C5', 'e'), ('A3', 'e')))
 
-            elif state.name == 'alarm':
+            elif state.name == 'alarms':
                 if state.value == 'active':
                     print("Alarm active", file=sys.stderr)
-                    self.sound.play_song((('A3', 'e'), ('C5', 'e')))
+                    self.sound.play_song((('B3', 'e'), ('D5', 'e')))
 
                 elif state.value == 'cleared':
                     print("Alarm cleared", file=sys.stderr)
-                    self.sound.play_song((('C5', 'e'), ('A3', 'e')))
+                    self.sound.play_song((('B5', 'e'), ('D3', 'e')))
             
-            elif state.name == 'timer':
+            elif state.name == 'timers':
                 if state.value == 'active':
-                    print("Wake word active", file=sys.stderr)
-                    self.sound.play_song((('A3', 'e'), ('C5', 'e')))
+                    print("Timer active", file=sys.stderr)
+                    self.sound.play_song((('C3', 'e'), ('E5', 'e')))
 
                 elif state.value == 'cleared':
-                    print("Wake word cleared", file=sys.stderr)
-                    self.sound.play_song((('C5', 'e'), ('A3', 'e')))
+                    print("Timer cleared", file=sys.stderr)
+                    self.sound.play_song((('E5', 'e'), ('C3', 'e')))
 
             elif state.name == 'reminders':
                 if state.value == 'active':
-                    print("Wake word active", file=sys.stderr)
-                    self.sound.play_song((('A3', 'e'), ('C5', 'e')))
+                    print("Reminder active", file=sys.stderr)
+                    self.sound.play_song((('D3', 'e'), ('F5', 'e')))
 
                 elif state.value == 'cleared':
-                    print("Wake word cleared", file=sys.stderr)
-                    self.sound.play_song((('C5', 'e'), ('A3', 'e')))
+                    print("Reminder cleared", file=sys.stderr)
+                    self.sound.play_song((('F5', 'e'), ('D3', 'e')))
+
+            elif state.name == 'timeinfo':
+                print(state.value)
+                logger.info(state.value)
 
 if __name__ == '__main__':
 
