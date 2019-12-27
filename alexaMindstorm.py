@@ -54,6 +54,8 @@ class MindstormsGadget(AlexaGadget):
         self.leds.set_color("LEFT", "GREEN")
         self.leds.set_color("RIGHT", "GREEN")
         logger.info("Connected to Alexa")
+        self.redMotor.on_for_degrees(speed=flagSpeed, degrees=red_adjust_value(360))
+        self.blueMotor.on_for_degrees(speed=flagSpeed, degrees=360)
 
     def on_disconnected(self, device_addr):
         """
@@ -63,6 +65,7 @@ class MindstormsGadget(AlexaGadget):
         self.leds.set_color("LEFT", "BLACK")
         self.leds.set_color("RIGHT", "BLACK")
         logger.info("Disconnected from Alexa")
+        gadget.sound.play_song((('E5', 'e'), ('D4', 'e'), ('C4', 'q')))
 
     def on_alexa_gadget_statelistener_stateupdate(self, directive):
         """
@@ -75,49 +78,54 @@ class MindstormsGadget(AlexaGadget):
                 if state.value == 'active':
                     print("Wake word active", file=sys.stderr)
                     self.sound.play_song((('A3', 'e'), ('C5', 'e')))
-                    self.redMotor.on_for_degrees(speed=50, degrees=90)
-                    self.blueMotor.on_for_degrees(speed=50, degrees=90)
-                    self.redMotor.off()
-                    self.blueMotor.off()
+                    self.blueMotor.on_for_degrees(speed=flagSpeed, degrees=180)
+
                 elif state.value == 'cleared':
                     print("Wake word cleared", file=sys.stderr)
                     self.sound.play_song((('C5', 'e'), ('A3', 'e')))
-                    self.redMotor.on_for_degrees(speed=50, degrees=270)
-                    self.blueMotor.on_for_degrees(speed=50, degrees=270)
-                    self.blueMotor.off()
-                    self.redMotor.off()
+                    self.blueMotor.on_for_degrees(speed=flagSpeed, degrees=180)
 
             elif state.name == 'alarms':
                 if state.value == 'active':
                     print("Alarm active", file=sys.stderr)
                     self.sound.play_song((('B3', 'e'), ('D5', 'e')))
+                    self.redMotor.on_for_degrees(speed=flagSpeed, degrees=red_adjust_value(90))
                 elif state.value == 'cleared':
                     print("Alarm cleared", file=sys.stderr)
                     self.sound.play_song((('B5', 'e'), ('D3', 'e')))
+                    self.redMotor.on_for_degrees(speed=flagSpeed, degrees=red_adjust_value(270))
             
             elif state.name == 'timers':
                 if state.value == 'active':
                     print("Timer active", file=sys.stderr)
                     self.sound.play_song((('C3', 'e'), ('E5', 'e')))
+                    self.redMotor.on_for_degrees(speed=flagSpeed, degrees=red_adjust_value(180))
                 elif state.value == 'cleared':
                     print("Timer cleared", file=sys.stderr)
                     self.sound.play_song((('E5', 'e'), ('C3', 'e')))
+                    self.redMotor.on_for_degrees(speed=flagSpeed, degrees=red_adjust_value(180))
 
             elif state.name == 'reminders':
                 if state.value == 'active':
                     print("Reminder active", file=sys.stderr)
                     self.sound.play_song((('D3', 'e'), ('F5', 'e')))
+                    self.redMotor.on_for_degrees(speed=flagSpeed, degrees=red_adjust_value(270))
                 elif state.value == 'cleared':
                     print("Reminder cleared", file=sys.stderr)
                     self.sound.play_song((('F5', 'e'), ('D3', 'e')))
+                    self.redMotor.on_for_degrees(speed=flagSpeed, degrees=red_adjust_value(90))
 
             elif state.name == 'timeinfo':
                 print(state.value)
                 logger.info(state.value)
 
+            self.redMotor.off()
+            self.blueMotor.off()
+
 if __name__ == '__main__':
 
     gadget = MindstormsGadget()
+    flagSpeed = 50
 
     # Set LCD font and turn off blinking LEDs
     os.system('setfont Lat7-Terminus12x6')
