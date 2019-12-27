@@ -40,7 +40,9 @@ class MindstormsGadget(AlexaGadget):
         self.leds = Leds()
         self.sound = Sound()
 
+        #Connect the blue motor to Port A
         self.blueMotor = MediumMotor(OUTPUT_A)
+        #Connect the red motor to Port B
         self.redMotor = MediumMotor(OUTPUT_B)
 
     def on_connected(self, device_addr):
