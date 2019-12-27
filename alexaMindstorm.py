@@ -29,15 +29,12 @@ def red_adjust_value(input):
     #Adjust this if you use different gears
     return input * (28/24)
 
-class MindstormsGadget(AlexaGadget):
-    """
-    An Mindstorms gadget that will react to the Alexa wake word.
-    """
 
+class MindstormsGadget(AlexaGadget):
+    #A Mindstorms gadget that will react to the Alexa wake word.
+    
     def __init__(self):
-        """
-        Performs Alexa Gadget initialization routines and ev3dev resource allocation.
-        """
+        #Performs Alexa Gadget initialization routines and ev3dev resource allocation.
         super().__init__()
 
         self.leds = Leds()
