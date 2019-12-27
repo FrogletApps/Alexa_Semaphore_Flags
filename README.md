@@ -1,2 +1,2 @@
-# Alexa_Mindstorms
+# Mindstorms_Semaphores_for_Alexa
  
