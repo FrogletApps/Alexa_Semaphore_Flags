@@ -54,6 +54,7 @@ class MindstormsGadget(AlexaGadget):
         self.leds.set_color("LEFT", "GREEN")
         self.leds.set_color("RIGHT", "GREEN")
         logger.info("Connected to Alexa")
+        gadget.sound.play_song((('C4', 'e'), ('D4', 'e'), ('E5', 'q')))
         self.redMotor.on_for_degrees(speed=flagSpeed, degrees=red_adjust_value(360))
         self.blueMotor.on_for_degrees(speed=flagSpeed, degrees=360)
 
@@ -133,7 +134,7 @@ if __name__ == '__main__':
     gadget.leds.set_color("RIGHT", "BLACK")
 
     # Startup sequence
-    gadget.sound.play_song((('C4', 'e'), ('D4', 'e'), ('E5', 'q')))
+    gadget.sound.play_song((('C4', 'e3'), ('E5', 'e3')))
     gadget.leds.set_color("LEFT", "GREEN")
     gadget.leds.set_color("RIGHT", "GREEN")
 
@@ -141,6 +142,6 @@ if __name__ == '__main__':
     gadget.main()
 
     # Shutdown sequence
-    gadget.sound.play_song((('E5', 'e'), ('C4', 'e')))
+    gadget.sound.play_song((('E5', 'e3'), ('C4', 'e3')))
     gadget.leds.set_color("LEFT", "BLACK")
     gadget.leds.set_color("RIGHT", "BLACK")
