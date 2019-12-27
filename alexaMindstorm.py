@@ -24,6 +24,10 @@ logging.basicConfig(level=logging.INFO, stream=sys.stdout, format='%(message)s')
 logging.getLogger().addHandler(logging.StreamHandler(sys.stderr))
 logger = logging.getLogger(__name__)
 
+def red_adjust_value(input):
+    #28/24 because 28 tooth and 24 tooth gears
+    #Adjust this if you use different gears
+    return input * (28/24)
 
 class MindstormsGadget(AlexaGadget):
     """
